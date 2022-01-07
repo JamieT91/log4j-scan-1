@@ -164,7 +164,7 @@ def get_fuzzing_headers(payload):
             i = i.strip()
             if i == "" or i.startswith("#"):
                 continue
-            fuzzing_headers.update({i: payload})
+            fuzzing_headers.update({i: "header-" + i.lower() + "." + payload})
     if args.exclude_user_agent_fuzzing:
         fuzzing_headers["User-Agent"] = default_headers["User-Agent"]
 
@@ -173,10 +173,10 @@ def get_fuzzing_headers(payload):
     return fuzzing_headers
 
 
-def get_fuzzing_post_data(payload):
+def get_fuzzing_post_data(payload, method):
     fuzzing_post_data = {}
     for i in post_data_parameters:
-        fuzzing_post_data.update({i: payload})
+        fuzzing_post_data.update({i: method + "-" + i + "." + payload})
     return fuzzing_post_data
 
 
@@ -336,9 +336,9 @@ def scan_url(url, callback_host):
                 # Post body
                 requests.request(url=url,
                                  method="POST",
-                                 params={"v": payload},
+                                 params={"v": "param-v." + payload},
                                  headers=get_fuzzing_headers(payload),
-                                 data=get_fuzzing_post_data(payload),
+                                 data=get_fuzzing_post_data(payload, "data"),
                                  verify=False,
                                  timeout=timeout,
                                  allow_redirects=(not args.disable_redirects),
@@ -352,7 +352,7 @@ def scan_url(url, callback_host):
                                  method="POST",
                                  params={"v": payload},
                                  headers=get_fuzzing_headers(payload),
-                                 json=get_fuzzing_post_data(payload),
+                                 json=get_fuzzing_post_data(payload, "json"),
                                  verify=False,
                                  timeout=timeout,
                                  allow_redirects=(not args.disable_redirects),
