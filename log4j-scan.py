@@ -322,7 +322,7 @@ def scan_url(url, callback_host):
             try:
                 requests.request(url=url,
                                  method="GET",
-                                 params={"v": payload.replace("#####", "param-v.")},
+                                 params={"v": payload.replace("#####", "param-v")},
                                  headers=get_fuzzing_headers(payload),
                                  verify=False,
                                  timeout=timeout,
@@ -336,7 +336,7 @@ def scan_url(url, callback_host):
                 # Post body
                 requests.request(url=url,
                                  method="POST",
-                                 params={"v": payload.replace("#####", "param-v.")},
+                                 params={"v": payload.replace("#####", "param-v")},
                                  headers=get_fuzzing_headers(payload),
                                  data=get_fuzzing_post_data(payload, "data"),
                                  verify=False,
@@ -350,7 +350,7 @@ def scan_url(url, callback_host):
                 # JSON body
                 requests.request(url=url,
                                  method="POST",
-                                 params={"v": payload.replace("#####", "param-v.")},
+                                 params={"v": payload.replace("#####", "param-v")},
                                  headers=get_fuzzing_headers(payload),
                                  json=get_fuzzing_post_data(payload, "json"),
                                  verify=False,
