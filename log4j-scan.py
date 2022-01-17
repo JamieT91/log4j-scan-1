@@ -47,7 +47,10 @@ default_headers = {
     'Accept': '*/*'  # not being tested to allow passing through checks on Accept header in older web-servers
 }
 
-post_data_parameters = ["username", "user", "uname", "name", "email", "email_address", "password"]
+post_data_parameters = [
+    "username", "user", "uname", "name", "email", "email_address", "password", "j_username",
+    "j_password"
+]
 timeout = 4
 
 waf_bypass_payloads = [
